@@ -38,15 +38,44 @@ async function init() {
 
   try {
     // Check WebGPU availability and show a user-friendly message if unavailable
-    /*
     if (!('gpu' in navigator)) {
       if (loadingEl) {
-        loadingEl.innerHTML = `<div class="error"><h2>WebGPU not available</h2><p>Please use Chrome/Edge Canary with --enable-unsafe-webgpu or enable WebGPU in Safari Technology Preview.</p></div>`;
+        loadingEl.innerHTML = `
+          <div class="error">
+            <h2>WebGPU not available</h2>
+            <p>Your browser does not expose WebGPU. To run the gallery you need a browser with WebGPU support (Chrome/Edge Canary or Safari Technology Preview with WebGPU enabled).</p>
+            <div style="margin-top:12px;">
+              <button id="try-anyway" style="margin-right:8px;padding:8px 12px;">Try anyway</button>
+              <button id="minimal-ui" style="padding:8px 12px;">Show minimal gallery</button>
+            </div>
+          </div>`;
       }
-      console.warn('WebGPU unavailable — skipping initialization');
+      console.warn('WebGPU unavailable — offering fallback UI');
+
+      // Wire up buttons: Try anyway will attempt full init; minimal UI shows a static placeholder
+      setTimeout(() => {
+        const tryBtn = document.getElementById('try-anyway');
+        const minimalBtn = document.getElementById('minimal-ui');
+        if (tryBtn) {
+          tryBtn.addEventListener('click', async () => {
+            // remove loading message and proceed with normal init
+            if (loadingEl) loadingEl.remove();
+            await loadWasmAndRun();
+          });
+        }
+        if (minimalBtn) {
+          minimalBtn.addEventListener('click', () => {
+            if (loadingEl) {
+              loadingEl.innerHTML = `<div class="info"><h3>Minimal gallery</h3><p>The full GPU-accelerated gallery is unavailable. Showing a simplified read-only list of components for exploration.</p></div>`;
+            }
+            // Optionally populate a simple list of components (keeps dev flow going)
+            showMinimalGallery();
+          });
+        }
+      }, 0);
+
       return;
     }
-    */
 
     // Import the WASM module
     const wasm = await import('./wasm/gpui_component_story_web.js');
