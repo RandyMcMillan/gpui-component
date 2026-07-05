@@ -32,6 +32,46 @@ window.addEventListener('unhandledrejection', (ev) => {
   if (_origConsoleError) _origConsoleError('Unhandled rejection:', reason);
 });
 
+// Helper: load the wasm module and run the app
+async function loadWasmAndRun() {
+  const loadingEl = document.getElementById('loading');
+  try {
+    const wasm = await import('./wasm/gpui_component_story_web.js');
+    await wasm.default();
+    await wasm.run();
+    if (loadingEl) loadingEl.remove();
+  } catch (err) {
+    console.error('Failed to initialize wasm app:', err);
+    if (loadingEl) {
+      loadingEl.innerHTML = `<div class="error"><h2>Failed to initialize the GPU app</h2><pre style="white-space:pre-wrap;">${err.message || err}</pre></div>`;
+    }
+  }
+}
+
+function showMinimalGallery() {
+  const appEl = document.getElementById('app');
+  const loadingEl = document.getElementById('loading');
+  const list = document.createElement('div');
+  list.style.padding = '12px';
+  list.innerHTML = `
+    <h4>Components (minimal view)</h4>
+    <ul>
+      <li>Button</li>
+      <li>Input</li>
+      <li>Table</li>
+      <li>Slider</li>
+      <li>Dialog</li>
+    </ul>
+    <p style="color:#666;margin-top:8px;">This is a simplified, read-only view for browsers without WebGPU.</p>
+  `;
+  if (loadingEl) {
+    loadingEl.innerHTML = '';
+    loadingEl.appendChild(list);
+  } else if (appEl) {
+    appEl.appendChild(list);
+  }
+}
+
 async function init() {
   const loadingEl = document.getElementById('loading');
   const appEl = document.getElementById('app');
