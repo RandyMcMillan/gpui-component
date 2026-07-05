@@ -47,7 +47,7 @@ echo -e "${GREEN}Step 2: Generating JavaScript bindings...${NC}"
 wasm-bindgen "$WASM_PATH" \
     --out-dir "$PROJECT_ROOT/www/src/wasm" \
     --target web \
-    --no-typescript
+    --no-typescript || cargo install wasm-bindgen-cli
 
 echo -e "${GREEN}✓ Build completed successfully!${NC}"
 echo -e "${YELLOW}Next steps:${NC}"
