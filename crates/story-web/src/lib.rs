@@ -32,7 +32,7 @@ pub fn run() -> Result<(), JsValue> {
     };
 
     app.with_assets(Assets::new(
-        "https://longbridge.github.io/gpui-component/gallery/",
+        "/gpui-component/gallery/",
     ))
     .run(|cx: &mut App| {
         gpui_component_story::init(cx);
