@@ -20,3 +20,5 @@ else
   echo "Error: Target output directory does not exist."
   exit 1
 fi
+
+mkdir -p target/wasm32-unknown-unknown/debug && cp -v target/wasm-build/wasm32-unknown-unknown/debug/gpui_component_story_web.wasm target/wasm32-unknown-unknown/debug/gpui_component_story_web.wasm && ls -l target/wasm32-unknown-unknown/debug/gpui_component_story_web.wasm
