@@ -38,6 +38,7 @@ async function init() {
 
   try {
     // Check WebGPU availability and show a user-friendly message if unavailable
+    /*
     if (!('gpu' in navigator)) {
       if (loadingEl) {
         loadingEl.innerHTML = `<div class="error"><h2>WebGPU not available</h2><p>Please use Chrome/Edge Canary with --enable-unsafe-webgpu or enable WebGPU in Safari Technology Preview.</p></div>`;
@@ -45,6 +46,7 @@ async function init() {
       console.warn('WebGPU unavailable — skipping initialization');
       return;
     }
+    */
 
     // Import the WASM module
     const wasm = await import('./wasm/gpui_component_story_web.js');
