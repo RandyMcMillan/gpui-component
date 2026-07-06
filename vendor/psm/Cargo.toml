@@ -68,8 +68,6 @@ path = "tests/stack_direction_2.rs"
 
 [dependencies]
 
-[build-dependencies.ar_archive_writer]
-version = "0.5.0"
-
-[build-dependencies.cc]
-version = "1.2.33"
+[build-dependencies]
+ar_archive_writer = "0.5.0"
+cc = "1.2.33"
